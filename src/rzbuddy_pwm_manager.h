@@ -15,7 +15,7 @@ typedef struct st_gpio_to_handler
 {
     bsp_io_port_pin_t const gpio_pin;
     uint32_t const gpio_trigger;
-    fsp_err_t (*const handler)(void);
+    fsp_err_t (*const handler)();
 } gpio_handler_mapping_t;
 
 /** Trigger one rotation of the RZBuddy feeding mechanism */
