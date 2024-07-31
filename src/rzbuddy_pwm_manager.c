@@ -35,7 +35,7 @@ fsp_err_t rzbuddy_dispense()
 //    TickType_t current_tick = start_tick;
 //    TickType_t ticks_to_pwm = pdMS_TO_TICKS(SERVO_ROTATION_PERIOD_MS);
 
-    /** TODO: Test: I'm assuming this won't work right now */
+    /** TODO: Run inside of RTOS task */
     vTaskDelay (pdMS_TO_TICKS(SERVO_ROTATION_PERIOD_MS));
 
     // software PWM for one rotation
