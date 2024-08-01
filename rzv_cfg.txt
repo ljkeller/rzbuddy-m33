@@ -1,7 +1,7 @@
 FSP Configuration
   Board "Custom User Board (Any Device)"
-  R9A07G054L23GBG
-    part_number: R9A07G054L23GBG
+  R9A07G054L23GBG_CM33
+    part_number: R9A07G054L23GBG_CM33
     rom_size_bytes: 0
     ram_size_bytes: 131072
     package_style: LFBGA

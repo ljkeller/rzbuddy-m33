@@ -29,8 +29,16 @@ fsp_err_t rzbuddy_dispense()
 
     vTaskDelay (pdMS_TO_TICKS(SERVO_ROTATION_PERIOD_MS));
 
-// TODO: RESET GPIO HERE? Throttle on the calling side?
-    return R_GPT_Stop (&g_timer_servo_ctrl);
+    retval = R_GPT_Stop (&g_timer_servo_ctrl);
+    if (retval != FSP_SUCCESS)
+        return retval;
+
+    // Calling side will trigger a feed event, then have to modulate the LED to
+    // get another feed event
+    while (R_BSP_PinRead(RZBUDDY_FEED_GPIO) == BSP_IO_LEVEL_HIGH)
+        ;
+
+    return FSP_SUCCESS;
 }
 
 fsp_err_t rzbuddy_pwm_nudge()

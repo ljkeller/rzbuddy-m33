@@ -23,6 +23,7 @@ void hal_entry(void)
 {
     /* Initializes GPT module. */
     handle_error (R_GPT_Open (&g_timer_servo_ctrl, &g_timer_servo_cfg));
+    handle_error(R_GPT_Start (&g_timer_servo_ctrl));
 
     rzbuddy_thread_create();
 
@@ -52,8 +53,8 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
     }
 }
 
-/* Implementation of vApplicationGetIdleTaskMemory() to provide the memory that is
- * used by the Idle task. */
+///* Implementation of vApplicationGetIdleTaskMemory() to provide the memory that is
+// * used by the Idle task. */
 void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer,
         uint32_t *pulIdleTaskStackSize)
 {
@@ -76,8 +77,8 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
     *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 }
 
-/* Implementation of vApplicationGetTimerTaskMemory() to provide the memory that is
- * used by the RTOS daemon/time task. */
+///* Implementation of vApplicationGetTimerTaskMemory() to provide the memory that is
+// * used by the RTOS daemon/time task. */
 void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer,
         uint32_t *pulTimerTaskStackSize)
 {
