@@ -7,9 +7,13 @@
 #include "semphr.h"
 #include "hal_data.h"
 #ifdef __cplusplus
-                extern "C" void blinky_thread_entry(void * pvParameters);
+                extern "C" void rzbuddy_thread_entry(void * pvParameters);
+                extern "C" void handle_error(fsp_err_t err);
+                void rzbuddy_thread_create();
                 #else
 extern void rzbuddy_thread_entry(void *pvParameters);
+extern void handle_error(fsp_err_t err);
+void rzbuddy_thread_create();
 #endif
 FSP_HEADER
 FSP_FOOTER

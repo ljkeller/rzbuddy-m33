@@ -7,39 +7,30 @@ static StaticTask_t rzbuddy_thread_memory;
                 #else
 static uint8_t rzbuddy_thread_stack[512] BSP_PLACE_IN_SECTION(BSP_UNINIT_SECTION_PREFIX ".stack.rzbuddy_thread") BSP_ALIGN_VARIABLE(BSP_STACK_ALIGNMENT);
 #endif
-TaskHandle_t blinky_thread;
-void rzbuddy_thread_create(void);
 static void rzbuddy_thread_func(void *pvParameters);
-void rtos_startup_err_callback(void *p_instance, void *p_data);
-void rtos_startup_common_init(void);
-extern uint32_t g_fsp_common_thread_count;
 
-const rm_freertos_port_parameters_t blinky_thread_parameters =
+const rm_freertos_port_parameters_t rzbuddy_thread_parameters =
 { .p_context = (void*) NULL, };
 
+/** This is a generic thread create, if you wanted to add more threads you'd want to track with a Semaphore at the start of this func */
 void rzbuddy_thread_create(void)
 {
-    /* Increment count so we will know the number of threads created in the RA Configuration editor. */
-    g_fsp_common_thread_count++;
-
+    TaskHandle_t rzbuddy_thread;
     /* Initialize each kernel object. */
-
-    blinky_thread = xTaskCreateStatic (rzbuddy_thread_func, (const char*) "Blinky Thread", 512 / 4, // In words, not bytes
-                                       (void*) &blinky_thread_parameters, //pvParameters
+    rzbuddy_thread = xTaskCreateStatic (rzbuddy_thread_func, (const char*) "Rzbuddy Thread", 512 / 4, // In words, not bytes
+                                       (void*) &rzbuddy_thread_parameters, //pvParameters
                                        1, (StackType_t*) &rzbuddy_thread_stack, (StaticTask_t*) &rzbuddy_thread_memory);
 
-    if (NULL == blinky_thread)
+    if (NULL == rzbuddy_thread)
     {
-        rtos_startup_err_callback (blinky_thread, 0);
+        handle_error(FSP_ERR_INVALID_STATE);
     }
 
 }
+
 static void rzbuddy_thread_func(void *pvParameters)
 {
-    /* Initialize common components */
-    rtos_startup_common_init ();
-
-    /* Initialize each module instance. */
+    /* Initialize common components here */
 
 #if (1 == BSP_TZ_NONSECURE_BUILD)
                     /* When FreeRTOS is used in a non-secure TrustZone application, portALLOCATE_SECURE_CONTEXT must be called prior
