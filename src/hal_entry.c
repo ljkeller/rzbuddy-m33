@@ -48,7 +48,6 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
         uint32_t *pulIdleTaskStackSize) BSP_WEAK_REFERENCE;
 void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer,
         uint32_t *pulTimerTaskStackSize) BSP_WEAK_REFERENCE;
-void handle_error(fsp_err_t err);
 /* End RTOS Related functions */
 
 /* If configSUPPORT_STATIC_ALLOCATION is set to 1, the application must provide an
@@ -99,10 +98,4 @@ void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer, StackT
      * Note that, as the array is necessarily of type StackType_t,
      * configMINIMAL_STACK_SIZE is specified in words, not bytes. */
     *pulTimerTaskStackSize = configMINIMAL_STACK_SIZE;
-}
-
-void handle_error(fsp_err_t err)
-{
-    while (err != FSP_SUCCESS)
-        ;
 }
