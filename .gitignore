@@ -109,6 +109,6 @@ Thumbs.db
 .secure_xml
 configuration.xml
 rzbuddy Debug_Flat.launch
-rzbuddy_generated Debug_Flat.launch
 rzbuddy_dbg.jlink
 script/
+rzbuddy_m33 Debug_Flat.launch
