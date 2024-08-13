@@ -15,7 +15,7 @@ FSP_CPP_FOOTER
 void hal_entry(void)
 {
 
-    /* Initialization for testing purposes */
+    /* Initialization for testing / indicator purposes */
     R_GPT_Open (&g_timer_servo_ctrl, &g_timer_servo_cfg);
     R_GPT_Start (&g_timer_servo_ctrl);
     for (int i = 0; i < 1000000; i++)

@@ -32,10 +32,12 @@ static void rzbuddy_root_task(void * pvParameters);
 
 void rzbuddy_thread_create(void)
 {
-    TaskHandle_t blinky_thread = xTaskCreateStatic (rzbuddy_root_task, (const char*) "Rzbuddy Thread",
+    TaskHandle_t blinky_thread = xTaskCreateStatic (rzbuddy_root_task,
+                                                    (const char*) "Rzbuddy Thread",
                                                     512 / 4, // In words, not bytes
                                                     (void*) &rzbuddy_thread_parameters, //pvParameters
-                                                    1, (StackType_t*) &rzbuddy_thread_stack,
+                                                    1,
+                                                    (StackType_t*) &rzbuddy_thread_stack,
                                                     (StaticTask_t*) &rzbuddy_thread_memory);
 
     assert(blinky_thread!=NULL);
@@ -46,18 +48,12 @@ static void rzbuddy_root_task(void *pvParameters)
     (void) pvParameters;
 
     R_GPT_Open (&g_timer_servo_ctrl, &g_timer_servo_cfg);
-    R_GPT_Start (&g_timer_servo_ctrl);
-    vTaskDelay (pdMS_TO_TICKS(1000));
-    R_GPT_Stop (&g_timer_servo_ctrl);
-    R_GPT_Close (&g_timer_servo_ctrl);
-    for (int i = 0; i < 5; i++)
-        ;
 
     fsp_err_t err = FSP_SUCCESS;
     gpio_handler_mapping_t const gpio_mappings[2] =
     {
-    { .gpio_pin = RZBUDDY_FEED_GPIO, .gpio_trigger = BSP_IO_LEVEL_HIGH, .handler = rzbuddy_dispense },
-      { .gpio_pin = RZBUDDY_NUDGE_GPIO, .gpio_trigger = BSP_IO_LEVEL_LOW, .handler = rzbuddy_pwm_nudge } // default low
+    { .gpio_pin = RZBUDDY_FEED_GPIO,  .gpio_trigger = BSP_IO_LEVEL_HIGH, .handler = rzbuddy_dispense },
+    { .gpio_pin = RZBUDDY_NUDGE_GPIO, .gpio_trigger = BSP_IO_LEVEL_LOW,  .handler = rzbuddy_pwm_nudge } // default low
     };
 
     handle_error (R_GPT_Open (&g_timer_servo_ctrl, &g_timer_servo_cfg));
@@ -100,7 +96,7 @@ fsp_err_t rzbuddy_dispense()
     while (R_BSP_PinRead (RZBUDDY_FEED_GPIO) == BSP_IO_LEVEL_HIGH)
         ;
 
-    return FSP_SUCCESS;
+    return retval;
 }
 
 fsp_err_t rzbuddy_pwm_nudge()
